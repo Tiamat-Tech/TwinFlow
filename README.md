@@ -48,6 +48,30 @@ Run inference demo `inference.py`:
 python inference.py
 ```
 
+We recommend to sample for 2~4 NFEs:
+
+```python
+# 4 NFE config
+sampler_config = {
+    "sampling_steps": 4,
+    "stochast_ratio": 1.0,
+    "extrapol_ratio": 0.0,
+    "sampling_order": 1,
+    "time_dist_ctrl": [1.0, 1.0, 1.0],
+    "rfba_gap_steps": [0.001, 0.5],
+}
+
+# 2 NFE config
+sampler_config = {
+    "sampling_steps": 2,
+    "stochast_ratio": 1.0,
+    "extrapol_ratio": 0.0,
+    "sampling_order": 1,
+    "time_dist_ctrl": [1.0, 1.0, 1.0],
+    "rfba_gap_steps": [0.001, 0.6],
+}
+```
+
 ## Citation
 
 ```bibtex
