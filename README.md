@@ -32,7 +32,7 @@
 
 ## ⚙️ Key Features
 
-![](assets/twinflow_feats.png)
+![](assets/twinflow_feats.jpg)
 
 ## 💪 Open-source Plans
 
