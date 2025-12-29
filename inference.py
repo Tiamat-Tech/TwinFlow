@@ -4,7 +4,8 @@ from functools import partial
 from torchvision.utils import save_image
 from diffusers import QwenImagePipeline
 
-from diffusers_patch.modeling_qwen_image import QwenImage
+from diffusers_patch.qwen_image.modeling_qwen_image import QwenImage
+from diffusers_patch.z_image.modeling_z_image import ZImage
 from unified_sampler import UnifiedSampler
 
 seed = 42

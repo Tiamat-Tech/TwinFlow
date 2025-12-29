@@ -11,7 +11,7 @@
 
 [![Project Page](https://img.shields.io/badge/Project%20Page-133399.svg?logo=homepage)](https://zhenglin-cheng.com/twinflow)&#160;
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Model-TwinFlow--Qwen--Image-yellow)](https://huggingface.co/inclusionAI/TwinFlow)&#160;
-![ModelScope](https://img.shields.io/badge/ModelScope-TwinFlow--Qwen--Image-%23624AFF?logo=data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjFlbSIgc3R5bGU9ImZsZXg6bm9uZTtsaW5lLWhlaWdodDoxIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIxZW0iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPk1vZGVsU2NvcGU8L3RpdGxlPjxwYXRoIGQ9Ik0wIDcuOTY3aDIuNjY3djIuNjY3SDB6TTggMTAuNjMzaDIuNjY3VjEzLjNIOHoiIGZpbGw9IiMzNkNFRDAiPjwvcGF0aD48cGF0aCBkPSJNMCAxMC42MzNoMi42NjdWMTMuM0gwek0yLjY2NyAxMy4zaDIuNjY2djIuNjY3SDh2Mi42NjZIMi42NjdWMTMuM3pNMi42NjcgNS4zSDh2Mi42NjdINS4zMzN2Mi42NjZIMi42NjdWNS4zek0xMC42NjcgMTMuM2gyLjY2N3YyLjY2N2gtMi42Njd6IiBmaWxsPSIjNjI0QUZGIj48L3BhdGg+PHBhdGggZD0iTTI0IDcuOTY3aC0yLjY2N3YyLjY2N0gyNHpNMTYgMTAuNjMzaC0yLjY2N1YxMy4zSDE2eiIgZmlsbD0iIzM2Q0VEMCI+PC9wYXRoPjxwYXRoIGQ9Ik0yNCAxMC42MzNoLTIuNjY3VjEzLjNIMjR6TTIxLjMzMyAxMy4zaC0yLjY2NnYyLjY2N0gxNnYyLjY2Nmg1LjMzM1YxMy4zek0yMS4zMzMgNS4zSDE2djIuNjY3aDIuNjY3djIuNjY2aDIuNjY2VjUuM3oiIGZpbGw9IiM2MjRBRkYiPjwvcGF0aD48L3N2Zz4=)&#160;
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Model-TwinFlow--Z--Image--Turbo--exp-yellow)](https://huggingface.co/inclusionAI/TwinFlow-Z-Image-Turbo)&#160;
 [![Github Repo](https://img.shields.io/badge/inclusionAI%2FTwinFlow-black?logo=github)](https://github.com/inclusionAI/TwinFlow)&#160;
 <a href="https://arxiv.org/abs/2512.05150" target="_blank"><img src="https://img.shields.io/badge/Paper-b5212f.svg?logo=arxiv" height="21px"></a>
 <a href="https://deepwiki.com/inclusionAI/TwinFlow"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>&#160;
@@ -20,12 +20,13 @@
 
 ## 🧭 Table of Contents
 
-- [Codebase Usage 🔥](src/README.md)
+- [🔥 Codebase Usage 🔥](src/README.md)
 - [Inference Demo](#inference-demo)
 - [Tutorials on MNIST](tutorials/README.md)
 
 ## 📰 News
 
+- We release experimental version of faster Z-Image-Turbo!
 - We release training code and better TwinFlow implementation on SD3.5 and OpenUni under `src` directory 👏🏻.
 - We release tutorials on MNIST to provide core implementation of TwinFlow!
 - We release **TwinFlow-Qwen-Image-v1.0**! And we are also working on **Z-Image-Turbo to make it faster!**
@@ -39,10 +40,31 @@
 - [x] Release inference and sampler code for TwinFlow-Qwen-Image-v1.0.
 - [x] Release training tutorials on MNIST for understanding.
 - [x] Release training code on SD3.5 and OpenUni.
-- [ ] Release faster Z-Image-Turbo.
+- [x] Release faster experimental version of Z-Image-Turbo.
 - [ ] Release large-scale training code.
 
 ## TwinFlow
+
+### TwinFlow-Z-Image-Turbo-exp Visualization
+
+<div align="center">
+  <img src="assets/twinflow_z_2step.jpg" width="1000" />
+  <p style="margin-top: 8px; font-size: 14px; color: #666; font-weight: bold;">
+    2-NFE visualization of TwinFlow-Z-Image-Turbo-exp
+  </p>
+</div>
+
+<details>
+<summary>👀 Original Z-Image-Turbo 2-NFE</summary>
+
+<div align="center">
+  <img src="assets/twinflow_z_2step.jpg" width="1000" />
+  <p style="margin-top: 8px; font-size: 14px; color: #666; font-weight: bold;">
+    2-NFE visualization of Z-Image-Turbo
+  </p>
+</div>
+
+</details>
 
 ### TwinFlow-Qwen-Image Visualization
 
