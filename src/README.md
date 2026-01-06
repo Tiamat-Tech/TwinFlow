@@ -10,6 +10,27 @@
 └── steerers/   # primary control flows for training and sampling.
 ```
 
+## Algorithm Guide
+
+TwinFlow-trained model is an any-step model, which supports few-step, any-step, and multi-step sampling at the same time. To achieve this, there are two timestep conditions: timestep and target timestep.
+
+During training, there are key configurations to control the target timestep distribution:
+
+https://github.com/inclusionAI/TwinFlow/blob/f1231854d7aba806eb586a79d05aa9cf062e29ca/src/methodes/twinflow/twinflow.py#L132
+
+![](../assets/probs_spec.png)
+
+Common practices:
+
+- `probs = {"e2e": 1, "mul": 1, "any": 1, "adv": 1}`: TwinFlow training
+- `probs = {"e2e": 0, "mul": 0, "any": 1, "adv": 0}`: RCGM training (in theory)
+- `probs = {"e2e": 1, "mul": 1, "any": 1, "adv": 0}`: RCGM training (in practice)
+  - In this case, you need comment these lines to run correctly:
+https://github.com/inclusionAI/TwinFlow/blob/f1231854d7aba806eb586a79d05aa9cf062e29ca/src/methodes/twinflow/twinflow.py#L358-L365
+
+- `probs = {"e2e": 0, "mul": 1, "any": 0, "adv": 0}`: Flow Matching training
+  - In this case, also set `consistc_ratio`, `enhanced_ratio`, `estimate_order` to 0
+
 ## Quick Start
 
 To deploy TwinFlow on OpenUni, please follow the procedure outlined below.
