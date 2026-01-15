@@ -33,6 +33,8 @@ https://github.com/inclusionAI/TwinFlow/blob/f1231854d7aba806eb586a79d05aa9cf062
 
 ## Quick Start
 
+### Full Training on OpenUni
+
 To deploy TwinFlow on OpenUni, please follow the procedure outlined below.
 
 ### Environment Configuration
@@ -127,4 +129,71 @@ sample:
   time_dist_ctrl: [1.17, 0.8, 1.1]
   rfba_gap_steps: [0.001, 0.0]
   sampling_style: mul
+```
+
+### LoRA Training
+
+- LoRA Training (TwinFlow on OpenUni):
+
+```sh
+# 1 order
+scripts/openuni/train_ddp_lora.sh configs/openuni_task/openuni_lora_1order.yaml
+# 2 order
+scripts/openuni/train_ddp_lora.sh configs/openuni_task/openuni_lora_2order.yaml
+```
+
+- LoRA Training (TwinFlow on SD3.5-M):
+
+```sh
+# 1 order
+scripts/sd3/train_ddp_lora.sh configs/sd_task/sd35_lora_1order.yaml
+# 2 order
+scripts/sd3/train_ddp_lora.sh configs/sd_task/sd35_lora_2order.yaml
+```
+
+### QwenImage and QwenImage-Edit Training
+
+- Full Training (TwinFlow on QwenImage):
+
+```sh
+scripts/qwenimage/train_fsdp.sh configs/qwenimage_task/qwenimage_full.yaml
+```
+
+> [!NOTE]Note on EMA
+> Due to memory limit, we did not add separate EMA for QwenImage, thus, we set `ema_decay_rate: 0` in the config. Users could switch FSDP2, which could fully support this.
+> https://github.com/inclusionAI/TwinFlow/blob/ab5808dfbbc7b3c5712d73652021e7318c93a39b/src/steerers/qwenimage/sft_fsdp.py#L132-L136
+
+> [!NOTE]Note on LoRA Training
+> Switch to LoRA training is easy, we suggest you to refer to `src/steerers/stable_diffusion_3/sft_ddp_lora.py` to add LoRA, and set the method config like `configs/sd_task/sd35_lora_1order.yaml` or `configs/sd_task/sd35_lora_2order.yaml`
+
+> [!NOTE]Note on QwenImage-Edit Training
+> Current modeling supports single reference image input for editing, you need to modify minor code to support edit training.
+
+1. In the config, change `QwenImage` to `QwenImageEdit`.
+2. Modify the dataloader to support loading the reference image, e.g. `text, image, control_image = batch["text"], batch["image"].cuda(), batch["control_img"].cuda()`
+3. Prepare inputs like:
+```python
+with torch.no_grad():
+   (
+       prompt_embeds,
+       prompt_embeds_mask,
+       uncond_prompt_embeds,
+       uncond_prompt_embeds_mask,
+   ) = model.encode_prompt(text, control_image, do_cfg=True)
+   prompt_embeds = prompt_embeds.to(torch.float32)
+   uncond_prompt_embeds = uncond_prompt_embeds.to(torch.float32)
+
+   latents = model.pixels_to_latents(image).to(torch.float32)
+   control_latents = model.pixels_to_latents(control_image).to(torch.float32)
+```
+4. Pass the inputs to `training_step` like:
+```python
+loss = method.training_step(
+   model,
+   latents,
+   c=[prompt_embeds, prompt_embeds_mask, control_latents],
+   e=[uncond_prompt_embeds, uncond_prompt_embeds_mask, control_latents],
+   step=(global_step - 1),
+   v=None
+)
 ```
