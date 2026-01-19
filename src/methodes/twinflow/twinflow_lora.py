@@ -131,8 +131,9 @@ class TwinFlow(torch.nn.Module):
         tt = t - torch.rand_like(t) * self.cor * t
         t_min = t - torch.rand_like(t) * t * min(0.05, self.cor)
 
-        probs = {"e2e": 1, "mul": 1, "any": 1, "adv": 1}
-        # probs = {"e2e": 0, "mul": 1, "any": 0, "adv": 0}
+        probs = {"e2e": 1, "mul": 1, "any": 1, "adv": 1, "one": 0} # use for 2-order and plus, i.e. when estimate_order >= 2
+        # probs = {"e2e": 1, "mul": 1, "any": 1, "adv": 1, "one": 0} # use for 1-order, i.e. when estimate_order = 1
+        # probs = {"e2e": 0, "mul": 1, "any": 0, "adv": 0, "one": 0} # use for flow matching, i.e. when estimate_order = 0
         # 3. Partition batch & Create masks
         keys, vals = list(probs.keys()), list(probs.values())
         lens = [int(round(bsz * v / (sum(vals) or 1))) for v in vals]
@@ -151,6 +152,8 @@ class TwinFlow(torch.nn.Module):
             t[m], tt[m] = 1.0, 0.0
         if (m := masks.get("mul")) is not None and m.any():
             tt[m] = t_min[m]
+        if (m := masks.get("one")) is not None and m.any():
+            tt[m] = 0.0
 
         if self.uif:
             x_fake, _, _, _ = self.forward(
@@ -340,7 +343,7 @@ class TwinFlow(torch.nn.Module):
                 target[idx] = (target - target_)[idx] + refer_v[idx]
 
         # Start optimizing RCGM-based or multi-step generation (if self.eso = 0)
-        rcgm_idx = sample_masks["e2e"] | sample_masks["any"]
+        rcgm_idx = sample_masks["e2e"] | sample_masks["one"] | sample_masks["any"]
         if (self.eso >= 1) and (self.cor != 0.0) and (rcgm_idx.any()):
             model_4_rcgm = self.mod if (self.emd != 1.0) else model
             rcgm_target = self.get_rcgm_target(

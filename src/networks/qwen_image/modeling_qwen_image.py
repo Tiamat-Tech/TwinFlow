@@ -434,7 +434,7 @@ class QwenImage(torch.nn.Module):
                     torch.randn(
                         [
                             1,
-                            self.transformer.in_channels,
+                            self.transformer.module.in_channels if hasattr(self.transformer, "module") else self.transformer.in_channels,
                             height // self.model.vae_scale_factor,
                             width // self.model.vae_scale_factor,
                         ],
@@ -449,7 +449,7 @@ class QwenImage(torch.nn.Module):
             noise = torch.randn(
                 [
                     len(prompts) * times,
-                    self.transformer.in_channels,
+                    self.transformer.module.in_channels if hasattr(self.transformer, "module") else self.transformer.in_channels,
                     height // self.model.vae_scale_factor,
                     width // self.model.vae_scale_factor,
                 ],
