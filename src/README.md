@@ -133,6 +133,11 @@ sample:
 
 ### LoRA Training
 
+> [!NOTE]
+> When using 1-order training, `any` to NOT required, `one` is required
+> When using 2-order training, `any` is required, `one` is optional
+> https://github.com/inclusionAI/TwinFlow/blob/cbfdbae2c98d279bbc45213b25909e367d62b5d5/src/methodes/twinflow/twinflow_lora.py#L134-L136
+
 - LoRA Training (TwinFlow on OpenUni), you need to comment L52 and use original transformer in L51:
 
 https://github.com/inclusionAI/TwinFlow/blob/9fc59521017d329ed6aee8046ff71e523a26f68f/src/networks/openuni/openuni_l_internvl3_2b_sana_1_6b_512_hf.py#L51-L52
@@ -159,6 +164,20 @@ scripts/sd3/train_ddp_lora.sh configs/sd_task/sd35_lora_2order.yaml
 
 ```sh
 scripts/qwenimage/train_fsdp.sh configs/qwenimage_task/qwenimage_full.yaml
+```
+
+- LoRA Training (TwinFlow on QwenImage):
+
+> [!NOTE]
+> When using 1-order training, `any` to NOT required, `one` is required
+> When using 2-order training, `any` is required, `one` is optional
+> https://github.com/inclusionAI/TwinFlow/blob/cbfdbae2c98d279bbc45213b25909e367d62b5d5/src/methodes/twinflow/twinflow_lora.py#L134-L136
+
+```sh
+# 1 order
+scripts/qwenimage/train_ddp_lora.sh configs/qwenimage_task/qwenimage_lora_1order.yaml
+# 2 order
+scripts/qwenimage/train_ddp_lora.sh configs/qwenimage_task/qwenimage_lora_2order.yaml
 ```
 
 > [!NOTE]
